@@ -1,7 +1,7 @@
 title: "Andrey Kalachev"
 description: "Senior Data Analyst — experiments, models, and messy data turned into decisions."
 url: "https://kalachevandrew.github.io"
-baseurl: ""
+baseurl: "/260521_blog_cv"
 lang: en
 
 author:
@@ -17,6 +17,7 @@ twitter:
 plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-feed
 
 permalink: /writing/:year/:slug/
 
