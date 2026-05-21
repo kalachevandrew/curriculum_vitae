@@ -1,0 +1,25 @@
+---
+layout: default
+---
+
+<article class="post">
+
+  <a class="post-back" href="{{ '/' | relative_url }}">← back</a>
+
+  <header class="post-header">
+    <div class="eyebrow">
+      {% if page.type %}<span class="chip chip-{{ page.type }}">{{ page.type }}</span>{% endif %}
+      <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%b %-d, %Y" }}</time>
+      <span class="dot-strip"><span></span><span></span><span></span><span></span><span></span></span>
+    </div>
+    <h1 class="post-title">{{ page.title }}</h1>
+    {% if page.excerpt and page.show_excerpt %}
+      <p class="post-excerpt">{{ page.excerpt | strip_html | strip_newlines }}</p>
+    {% endif %}
+  </header>
+
+  <div class="prose">
+    {{ content }}
+  </div>
+
+</article>

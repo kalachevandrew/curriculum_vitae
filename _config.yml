@@ -1,0 +1,36 @@
+title: "Andrey Kalachev"
+description: "Senior Data Analyst — experiments, models, and messy data turned into decisions."
+url: "https://kalachevandrew.github.io"
+baseurl: ""
+lang: en
+
+author:
+  name: "Andrey Kalachev"
+  email: "kalachev530@gmail.com"
+  linkedin: "kalachevandrew"
+  github: "kalachevandrew"
+  location: "Barcelona, ES"
+
+twitter:
+  card: summary_large_image
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+permalink: /writing/:year/:slug/
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+  - .bundle
+  - .jekyll-cache
