@@ -22,9 +22,8 @@
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --maxw: 880px;
-  --pad-x: clamp(20px, 4vw, 56px);
-  --pad-y: clamp(28px, 5vw, 56px);
+  --pad-x: clamp(20px, 3.2vw, 48px);
+  --pad-y: clamp(20px, 3.2vw, 40px);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,7 +31,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  background: #ededed;
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);
   font-weight: 400;
@@ -73,15 +72,62 @@ a { color: inherit; }
   border-radius: 2px;
 }
 
-/* ---------- page shell ---------- */
-.page {
+/* ---------- FULL-VIEWPORT TWO-PANE LAYOUT ---------- */
+.body-split {
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.body-single {
+  min-height: 100dvh;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  height: 100dvh;
   width: 100%;
-  max-width: var(--maxw);
-  margin: 24px auto;
-  background: var(--bg);
+}
+
+.cv-pane {
+  overflow-y: auto;
   padding: var(--pad-y) var(--pad-x);
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  position: relative;
+  background: var(--bg);
+  scrollbar-gutter: stable;
+}
+
+.cv-pane > * {
+  max-width: 760px;
+}
+
+.writing-pane {
+  overflow-y: auto;
+  background: var(--bg-soft);
+  border-left: 1px solid var(--rule);
+  scrollbar-gutter: stable;
+}
+
+.writing-pane-inner {
+  padding: var(--pad-y) var(--pad-x);
+  max-width: 720px;
+}
+
+.writing-pane-header {
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--rule);
+}
+
+.writing-pane-header .writing-intro {
+  margin: 0;
+}
+
+.single-pane {
+  padding: var(--pad-y) var(--pad-x);
+  max-width: 880px;
+  margin: 0 auto;
+  background: var(--bg);
+  min-height: 100dvh;
 }
 
 /* ---------- HEADER ---------- */
@@ -172,7 +218,7 @@ h1 .accent {
 }
 
 /* ---------- SECTIONS ---------- */
-.section { margin-bottom: 28px; }
+.section { margin-bottom: 20px; }
 
 .section-title {
   font-family: var(--mono);
@@ -220,7 +266,7 @@ h1 .accent {
 .experience {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .job {
@@ -450,14 +496,8 @@ h1 .accent {
 }
 
 /* ============================================================
-   WRITING & PROJECTS SECTION
+   WRITING & PROJECTS PANE
    ============================================================ */
-.writing-section {
-  margin-top: 32px;
-  padding-top: 24px;
-  border-top: 1px dashed var(--rule);
-}
-
 .writing-intro {
   font-size: 14px;
   color: var(--ink-mute);
@@ -642,50 +682,6 @@ h1 .accent {
 .prose hr { border: none; border-top: 1px dashed var(--rule); margin: 2em 0; }
 
 /* ============================================================
-   SITE FOOTER
-   ============================================================ */
-.site-footer {
-  max-width: var(--maxw);
-  margin: 16px auto 36px;
-  padding: 16px var(--pad-x);
-  font-family: var(--mono);
-  font-size: 11px;
-  color: var(--ink-mute);
-}
-
-.site-footer-inner {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.site-footer a {
-  color: var(--ink-soft);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 120ms ease;
-}
-
-.site-footer a:hover { border-bottom-color: var(--v3); }
-
-.footer-dots {
-  display: inline-flex;
-  gap: 3px;
-}
-.footer-dots span {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-}
-.footer-dots span:nth-child(1) { background: var(--v1); }
-.footer-dots span:nth-child(2) { background: var(--v2); }
-.footer-dots span:nth-child(3) { background: var(--v3); }
-.footer-dots span:nth-child(4) { background: var(--v4); }
-.footer-dots span:nth-child(5) { background: var(--v5); }
-
-/* ============================================================
    404
    ============================================================ */
 .not-found {
@@ -708,9 +704,30 @@ h1 .accent {
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 720px) {
-  .page { margin: 12px auto; border-radius: 0; }
+@media (max-width: 960px) {
+  .body-split {
+    height: auto;
+    overflow: visible;
+  }
+  .layout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .cv-pane,
+  .writing-pane {
+    overflow: visible;
+    height: auto;
+  }
+  .writing-pane {
+    border-left: none;
+    border-top: 1px solid var(--rule);
+  }
+  .cv-pane > * {
+    max-width: none;
+  }
+}
 
+@media (max-width: 720px) {
   .header {
     grid-template-columns: 1fr;
     align-items: start;
@@ -737,68 +754,4 @@ h1 .accent {
 @media (max-width: 480px) {
   body { font-size: 15px; }
   .skill-tag { font-size: 12px; }
-}
-
-/* ============================================================
-   PRINT — preserve the original A4 CV exactly
-   ============================================================ */
-@page {
-  size: A4;
-  margin: 0;
-}
-
-@media print {
-  body {
-    background: white;
-    padding: 0;
-    font-size: 9pt;
-    line-height: 1.4;
-  }
-
-  .page {
-    width: 210mm;
-    height: 297mm;
-    max-width: none;
-    margin: 0;
-    padding: 14mm 16mm;
-    box-shadow: none;
-    overflow: hidden;
-    border-radius: 0;
-  }
-
-  /* hide web-only chrome when printing */
-  .skip-link,
-  .site-footer,
-  .writing-section,
-  .post-back { display: none !important; }
-
-  /* restore original print typography */
-  h1 { font-size: 26pt; line-height: 1.05; }
-  .tagline { font-size: 10pt; margin-top: 8px; }
-  .eyebrow { font-size: 7pt; }
-  .header-meta { font-size: 7.5pt; line-height: 1.6; text-align: right; }
-  .section-title { font-size: 7.5pt; }
-  .summary { font-size: 10pt; line-height: 1.45; }
-  .job-meta { font-size: 7pt; line-height: 1.55; }
-  .job-role { font-size: 11pt; }
-  .job-company { font-size: 8pt; }
-  .job-list li { font-size: 8.75pt; line-height: 1.4; }
-  .skill-tag { font-size: 8.5pt; padding: 2px 9px; }
-  .edu-degree { font-size: 9.5pt; }
-  .edu-school { font-size: 8.5pt; }
-  .edu-date { font-size: 7pt; }
-  .cert-list li { font-size: 8.5pt; }
-  .lang-name { font-size: 9.5pt; }
-  .lang-meter .label { font-size: 7pt; }
-
-  /* restore desktop two-column layouts in print regardless of screen breakpoint */
-  .header { grid-template-columns: 1fr auto; align-items: end; }
-  .header-meta { text-align: right; }
-  .job { grid-template-columns: 92px 1fr; gap: 18px; }
-  .job-meta { padding-top: 3px; }
-  .job-body { border-left: 1px solid var(--rule); padding-left: 14px; }
-  .two-col { grid-template-columns: 1fr 1fr; gap: 24px; }
-
-  a { color: inherit; }
-  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

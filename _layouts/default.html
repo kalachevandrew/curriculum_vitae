@@ -3,27 +3,24 @@
 <head>
   {% include head.html %}
 </head>
-<body>
+<body class="{% if page.layout == 'default' %}body-split{% else %}body-single{% endif %}">
 
 <a class="skip-link" href="#main">Skip to content</a>
 
-<main class="page" id="main">
+{% if page.layout == 'default' %}
+<div class="layout">
+  <main class="cv-pane" id="main">
+    {{ content }}
+  </main>
+  <aside class="writing-pane" aria-label="Writing and Projects">
+    {% include writing.html %}
+  </aside>
+</div>
+{% else %}
+<main class="single-pane" id="main">
   {{ content }}
 </main>
-
-<footer class="site-footer">
-  <div class="site-footer-inner">
-    <span class="footer-meta">© {{ 'now' | date: '%Y' }} {{ site.author.name }}</span>
-    <span class="footer-dots" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-    </span>
-    <span class="footer-meta">
-      <a href="mailto:{{ site.author.email }}">email</a> ·
-      <a href="https://www.linkedin.com/in/{{ site.author.linkedin }}">linkedin</a> ·
-      <a href="https://github.com/{{ site.author.github }}">github</a>
-    </span>
-  </div>
-</footer>
+{% endif %}
 
 </body>
 </html>

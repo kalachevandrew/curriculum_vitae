@@ -1,0 +1,27 @@
+<div class="writing-pane-inner">
+  <header class="writing-pane-header">
+    <div class="eyebrow">
+      Writing &amp; Projects
+      <span class="dot-strip"><span></span><span></span><span></span><span></span><span></span></span>
+    </div>
+    <p class="writing-intro">Articles, thoughts, and project writeups — sharing what I'm learning as I go.</p>
+  </header>
+
+  <div class="writing-grid">
+    {% if site.posts.size == 0 %}
+      <div class="writing-empty">
+        <p>More coming soon — articles, project writeups, and notes will appear here.</p>
+        <span class="dot-strip"><span></span><span></span><span></span><span></span><span></span></span>
+      </div>
+    {% else %}
+      {% for post in site.posts limit: 12 %}
+        <a class="writing-card" href="{{ post.url | relative_url }}">
+          {% if post.type %}<span class="chip chip-{{ post.type }}">{{ post.type }}</span>{% endif %}
+          <h3>{{ post.title }}</h3>
+          <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d, %Y" }}</time>
+          {% if post.excerpt %}<p>{{ post.excerpt | strip_html | strip_newlines }}</p>{% endif %}
+        </a>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
