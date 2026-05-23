@@ -98,6 +98,8 @@ a { color: inherit; }
 
 .cv-pane > * {
   max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .writing-pane {
@@ -110,6 +112,8 @@ a { color: inherit; }
 .writing-pane-inner {
   padding: var(--pad-y) var(--pad-x);
   max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .writing-pane-header {
