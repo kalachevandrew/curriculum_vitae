@@ -9,3 +9,4 @@ Gemfile.lock
 *.swp
 *.log
 .preview.html
+CLAUDE.md
